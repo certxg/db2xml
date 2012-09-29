@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="dbsql2xml.xsd" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <tokenForCommandLineStringArrays>#</tokenForCommandLineStringArrays>
+  <globalCharsetName>UTF-8</globalCharsetName>
+  <connectionProperties>
+    <jdbcDriver>com.mysql.jdbc.Driver</jdbcDriver> 
+    <jdbcURL>jdbc:mysql://localhost:3306/sales</jdbcURL>
+    <jdbcUserName>root</jdbcUserName>
+    <jdbcPassword>admin</jdbcPassword>
+    <multiStatementDriver>false</multiStatementDriver>
+  </connectionProperties>
+  <globalVariables>
+    <globalVariable name="$item.productId">-1</globalVariable>
+  </globalVariables>
+  <processingInstructions>
+    <!--<css>css/dbsql2xml.css</css>-->
+    <!--<xslt>xslt/dbsql2xml.xsl</xslt>-->
+  </processingInstructions>
+  <table xmlName="product" sql="SELECT * FROM product WHERE product_id = $item.productId">
+    <column xmlName="id" sqlName="product_id"/>
+    <column xmlName="name" sqlName="name" charsetName="ISO-8859-2"/>
+    <column xmlName="price" sqlName="price"/>
+  </table>
+</config>

@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+  <xs:import namespace="http://www.w3.org/XML/1998/namespace" schemaLocation="xmlNamespace1998.xsd"/>
+  <xs:element name="config">
+    <xs:complexType mixed="false">
+      <xs:all>
+        <xs:element minOccurs="1" maxOccurs="1" ref="tokenForCommandLineStringArrays"/>
+        <xs:element minOccurs="1" maxOccurs="1" ref="globalCharsetName"/>
+        <xs:element minOccurs="1" maxOccurs="1" ref="connectionProperties"/>
+        <xs:element minOccurs="1" maxOccurs="1" ref="globalVariables"/>
+        <xs:element minOccurs="1" maxOccurs="1" ref="processingInstructions"/>
+        <xs:element minOccurs="1" maxOccurs="1" ref="table"/>
+      </xs:all>
+    </xs:complexType>
+    <xs:unique name="globalVariableHasToBeUnique">
+      <xs:selector xpath=".//column"/>
+      <xs:field xpath="@globalVariableName"/>
+    </xs:unique>
+  </xs:element>
+  <xs:element name="tokenForCommandLineStringArrays" type="xs:string"/>
+  <xs:element name="globalCharsetName" type="xs:string"/>
+  <xs:element name="connectionProperties">
+    <xs:complexType>
+      <xs:all>
+        <xs:element minOccurs="1" maxOccurs="1" ref="jdbcDriver"/>
+        <xs:element minOccurs="1" maxOccurs="1" ref="jdbcURL"/>
+        <xs:element minOccurs="1" maxOccurs="1" ref="jdbcUserName"/>
+        <xs:element minOccurs="1" maxOccurs="1" ref="jdbcPassword"/>
+        <xs:element minOccurs="1" maxOccurs="1" ref="multiStatementDriver"/>
+      </xs:all>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="jdbcDriver" type="xs:string"/>
+  <xs:element name="jdbcURL" type="xs:anyURI"/>
+  <xs:element name="jdbcUserName" type="xs:string"/>
+  <xs:element name="jdbcPassword" type="xs:string"/>
+  <xs:element name="multiStatementDriver" type="xs:boolean"/>
+  <xs:element name="globalVariables">
+    <xs:complexType mixed="false">
+      <xs:sequence>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="globalVariable"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="globalVariable">
+    <xs:complexType mixed="true">
+      <xs:attribute name="name" use="required" type="xs:string"/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="processingInstructions">
+    <xs:complexType mixed="false">
+      <xs:choice>
+        <xs:element minOccurs="0" maxOccurs="1" ref="css"/>
+        <xs:element minOccurs="0" maxOccurs="1" ref="xslt"/>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="css" type="xs:anyURI"/>
+  <xs:element name="xslt" type="xs:anyURI"/>
+  <xs:element name="table">
+    <xs:complexType mixed="false">
+      <xs:sequence>
+        <xs:element minOccurs="1" maxOccurs="unbounded" ref="column"/>
+        <xs:element minOccurs="0" maxOccurs="unbounded" ref="table"/>
+      </xs:sequence>
+      <xs:attribute name="xmlName" use="required" type="xs:NCName"/>
+      <xs:attribute name="sql" use="required"/>
+      <xs:attribute ref="xml:base" use="optional"/>
+      <xs:attribute ref="xml:lang" use="optional"/>
+      <!--<xs:attribute name="id" type="xs:ID" use="optional"/>-->
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="column">
+    <xs:complexType mixed="false">
+      <xs:attribute name="xmlName" use="required" type="xs:NCName"/>
+      <xs:attribute name="sqlName" use="required" type="xs:NCName"/>
+      <xs:attribute name="globalVariableName" use="optional"/>
+      <xs:attribute name="charsetName" use="optional"/>
+      <xs:attribute ref="xml:base" use="optional"/>
+      <xs:attribute ref="xml:lang" use="optional"/>
+      <!--<xs:attribute name="id" type="xs:ID" use="optional"/>-->
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

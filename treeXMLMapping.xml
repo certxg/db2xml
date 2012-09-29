@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="dbsql2xml.xsd">
+  <tokenForCommandLineStringArrays>#</tokenForCommandLineStringArrays>
+  <globalCharsetName>UTF-8</globalCharsetName>
+  <connectionProperties>
+    <jdbcDriver>com.mysql.jdbc.Driver</jdbcDriver> 
+    <jdbcURL>jdbc:mysql://localhost:3306/sales</jdbcURL>
+    <jdbcUserName>root</jdbcUserName>
+    <jdbcPassword>admin</jdbcPassword>
+    <multiStatementDriver>false</multiStatementDriver>
+  </connectionProperties>
+  <globalVariables>
+    <globalVariable name="$gv00">10</globalVariable>
+  </globalVariables>
+  <processingInstructions>
+    <!--<css>css/dbsql2xml.css</css>-->
+    <!--<xslt>xslt/dbsql2xml.xsl</xslt>-->
+  </processingInstructions>
+  <table xmlName="invoice" sql="SELECT * FROM invoice WHERE invoice_id = $gv00">
+    <column xmlName="id" sqlName="invoice_id" globalVariableName="$gv01"/>
+    <column xmlName="customer_Id" sqlName="customer_id" globalVariableName="$gv02"/>
+    <column xmlName="total" sqlName="TOTAL"/>
+    <table xmlName="customer" sql="SELECT * FROM customer WHERE customer_id = $gv02">
+      <column xmlName="id" sqlName="customer_id"/>
+      <column xmlName="firstName" sqlName="first_name"/>
+      <column xmlName="lastName" sqlName="last_name"/>
+      <column xmlName="street" sqlName="street"/>
+      <column xmlName="city" sqlName="city"/>
+    </table>
+    <table xmlName="item" sql="SELECT * FROM item WHERE invoice_id = $gv01">
+      <column xmlName="invoiceId" sqlName="invoice_id"/>
+      <column xmlName="item" sqlName="item_id"/>
+      <column xmlName="productId" sqlName="product_id" globalVariableName="$gv03"/>
+      <column xmlName="quantity" sqlName="quantity"/>
+      <column xmlName="cost" sqlName="cost"/>
+      <table xmlName="product" sql="SELECT * FROM product WHERE product_id = $gv03">
+        <column xmlName="id" sqlName="product_id"/>
+        <column xmlName="name" sqlName="name"/>
+        <column xmlName="price" sqlName="price"/>
+      </table>
+    </table>
+  </table>
+</config>

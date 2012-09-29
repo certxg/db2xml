@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="dbsql2xml.xsd">
+  <tokenForCommandLineStringArrays>#</tokenForCommandLineStringArrays>
+  <globalCharsetName>UTF-8</globalCharsetName>
+
+  <connectionProperties>
+    <!-- <jdbcDriver>org.hsqldb.jdbcDriver</jdbcDriver> -->
+    <!-- <jdbcURL>jdbc:hsqldb:hsql://localhost/</jdbcURL>  -->
+
+    <jdbcDriver>com.mysql.jdbc.Driver</jdbcDriver> 
+    <jdbcURL>jdbc:mysql://localhost:3306/sales</jdbcURL>
+    <jdbcUserName>root</jdbcUserName>
+    <jdbcPassword>admin</jdbcPassword>
+    <multiStatementDriver>false</multiStatementDriver>
+
+  </connectionProperties>
+
+  <globalVariables>
+    <globalVariable name="$gv00">10</globalVariable>
+  </globalVariables>
+  <processingInstructions>
+    <!--<css>css/dbsql2xml.css</css>-->
+    <!--<xslt>xslt/dbsql2xml.xsl</xslt>-->
+  </processingInstructions>
+  <table xmlName="invoice" sql="select invoice.invoice_id as &quot;invoice.invoice_id&quot;, invoice.customer_id as &quot;invoice.customer_id&quot;, invoice.total as &quot;invoice.total&quot;, item.invoice_id as &quot;item.invoice_id&quot;, item.item_id as &quot;item.item_id&quot;, item.product_id as &quot;item.product_id&quot;, item.quantity as &quot;item.quantity&quot;, item.cost as &quot;item.cost&quot;, product.product_id as &quot;product.product_id&quot;, product.name as &quot;product.name&quot;, product.price as &quot;product.price&quot;, customer.customer_id as &quot;customer.customer_id&quot;, customer.first_name as &quot;customer.first_name&quot;, customer.last_name as &quot;customer.last_name&quot;, customer.street as &quot;customer.street&quot;, customer.city as &quot;customer.city&quot; from invoice, item, product, customer where invoice.invoice_id=item.invoice_id and item.product_id=product.product_id and invoice.customer_id=customer.customer_id and invoice.invoice_id = $gv00">
+    <column xmlName="invoice.id" sqlName="invoice.invoice_id"/>
+    <column xmlName="invoice.customerid" sqlName="invoice.customer_id"/>
+    <column xmlName="invoice.total" sqlName="invoice.customer_id"/>
+    <column xmlName="item.invoiceid" sqlName="item.invoice_id"/>
+    <column xmlName="item.item" sqlName="item.item_id"/>
+    <column xmlName="item.productid" sqlName="item.product_id"/>
+    <column xmlName="item.quantity" sqlName="item.quantity"/>
+    <column xmlName="item.cost" sqlName="item.cost"/>
+    <column xmlName="product.id" sqlName="product.product_id"/>
+    <column xmlName="product.name" sqlName="product.name"/>
+    <column xmlName="product.price" sqlName="product.price"/>
+    <column xmlName="customer.id" sqlName="customer.customer_id"/>
+    <column xmlName="customer.firstname" sqlName="customer.first_name"/>
+    <column xmlName="customer.lastname" sqlName="customer.last_name"/>
+    <column xmlName="customer.street" sqlName="customer.street"/>
+    <column xmlName="customer.city" sqlName="customer.city"/>
+  </table>
+</config>

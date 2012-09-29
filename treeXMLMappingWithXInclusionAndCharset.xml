@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="dbsql2xml.xsd" xmlns:xi="http://www.w3.org/2001/XInclude">
+  <tokenForCommandLineStringArrays>#</tokenForCommandLineStringArrays>
+  <!-- names and values of global variables Strings are delimited by this character; change it, if You need -->
+  <globalCharsetName>UTF-8</globalCharsetName>
+  <connectionProperties>
+    <jdbcDriver>com.mysql.jdbc.Driver</jdbcDriver> 
+    <jdbcURL>jdbc:mysql://localhost:3306/sales</jdbcURL>
+    <jdbcUserName>root</jdbcUserName>
+    <jdbcPassword>admin</jdbcPassword>
+
+    <!-- here is blank password -->
+    <multiStatementDriver>false</multiStatementDriver>
+    <!-- this means, that HSQLDB JDBC driver can have multiple ResultSet-s per one Connection, which is significantly faster then one-per-one; if You are not sure, set "true" -->
+  </connectionProperties>
+  <globalVariables>
+    <globalVariable name="$gv00">10</globalVariable>
+    <!-- these global variables (in mapping XML) are covered by these ones cet by constructor; so $gv00=10 from <globalVariable> together $gv00=20 from constructor will result in $gv00=20 -->
+  </globalVariables>
+  <processingInstructions>
+    <!--<css>css/dbsql2xml.css</css>-->
+    <!--<xslt>xslt/dbsql2xml.xsl</xslt>-->
+  </processingInstructions>
+  <table xmlName="invoice" sql="SELECT * FROM invoice WHERE invoice_id = $gv00">
+    <!-- "$gv00" will be replaced by its value -->
+    <column xmlName="id" sqlName="invoice_id" globalVariableName="$invoice.id"/>
+    <!-- remember value of column "id" for use in SQL select in "item" table -->
+    <column xmlName="customerId" sqlName="customer_id" globalVariableName="$invoice.customerId"/>
+    <!-- remember value of column "customerId" for use in SQL select in "customer" table -->
+    <column xmlName="total" sqlName="TOTAL"/>
+    <table xmlName="customer" sql="SELECT * FROM customer WHERE customer_id = $invoice.customerId">
+      <column xmlName="id" sqlName="customer_id"/>
+      <column xmlName="firstName" sqlName="first_name" charsetName="UTF-8"/>
+      <!-- column "firstname" is (String) in "UTF-8" character encoding -->
+      <column xmlName="lastName" sqlName="last_name" charsetName="windows-1250"/>
+      <!-- column "lastname" is (String) in "windows-1250" character encoding -->
+      <column xmlName="street" sqlName="street"/>
+      <column xmlName="city" sqlName="city"/>
+    </table>
+    <table xmlName="item" sql="SELECT * FROM item WHERE invoice_id = $invoice.id">
+      <column xmlName="invoiceId" sqlName="invoice_id"/>
+      <column xmlName="item" sqlName="item_id"/>
+      <column xmlName="productId" sqlName="product_id" globalVariableName="$item.productId"/>
+      <!-- remember value of column "productId" for use in SQL select in "product" table -->
+      <column xmlName="quantity" sqlName="quantity"/>
+      <column xmlName="cost" sqlName="cost"/>
+      <xi:include href="productMappingToBeXIncludedIntoTreeXML.xml" xpointer="element(/1/6)"/>
+      <!-- use XInclusion to include (reuse) mapping of "product" table; results of "treeXMLMappingWithXInclusionAndCharset.xml" and "treeXMLOut.xml" should be the same -->
+      <!-- AFAIK Java2 1.5.0_xx (its JAXP) support only first level XInclude, so XInclusion so only "B.xml" -> "A.xml" will work, not "C.xml" -> "B.xml" -> "A.xml" -->
+    </table>
+  </table>
+</config>
